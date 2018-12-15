@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-redux": "^6.0.0",
     "react-scripts": "2.1.1",
     "redux": "^4.0.1",
     "redux-saga": "^0.16.2",
@@ -32,9 +33,12 @@
     "@types/node": "^10.12.15",
     "@types/react": "^16.7.17",
     "@types/react-dom": "^16.0.11",
+    "@types/react-redux": "^6.0.11",
     "@types/redux": "^3.6.0",
     "@types/redux-saga": "^0.10.5",
     "jest": "^23.6.0",
+    "redux-devtools": "^3.4.2",
+    "redux-saga-test-plan": "^3.7.0",
     "ts-jest": "^23.10.5"
   }
 }
