@@ -12,17 +12,12 @@ export const SUCCESS = "SUCCESS";
 export const FAILURE = "FAILURE";
 
 function createRequestTypes(
-  base
+  base: string
 ): { REQUEST: ActionType; SUCCESS: ActionType; FAILURE: ActionType } {
-  const reduce: {
-    REQUEST: ActionType;
-    SUCCESS: ActionType;
-    FAILURE: ActionType;
-  } = [REQUEST, SUCCESS, FAILURE].reduce((acc, type) => {
+  return [REQUEST, SUCCESS, FAILURE].reduce((acc, type) => {
     acc[type] = `${base}_${type}`;
     return acc;
-  }, {});
-  return reduce;
+  }, {REQUEST: '', SUCCESS: '', FAILURE: ''});
 }
 
 export const NEW_RELEASES = createRequestTypes("NEW_RELEASES");
@@ -30,7 +25,7 @@ export const NEW_RELEASES = createRequestTypes("NEW_RELEASES");
 export const LOAD_MORE_NEW_RELEASES = "LOAD_MORE_NEW_RELEASES";
 export const RESET_ERROR_MESSAGE = "RESET_ERROR_MESSAGE";
 
-function action(type, payload = {}) {
+function action(type, payload = {}): AnyAction {
   return { type, payload };
 }
 
@@ -45,9 +40,9 @@ export class FetchNewReleases implements AnyAction {
 type NewReleasesSaga = RequestSaga<{ page: number; offset: number }, any, any>;
 
 export const newReleases: NewReleasesSaga = {
-  request: ({ page, limit }) => new FetchNewReleases(page, limit),
-  success: ({ response, page, limit }) =>
-    action(NEW_RELEASES[SUCCESS], { response, page, limit }),
+  request: ({ page, limit }) => action(NEW_RELEASES[REQUEST], {page, limit}),
+  success: ({ releases, page, limit }) =>
+    action(NEW_RELEASES[SUCCESS], { releases, page, limit }),
   error: error => action(NEW_RELEASES[FAILURE], { error })
 };
 

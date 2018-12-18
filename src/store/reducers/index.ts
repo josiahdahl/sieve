@@ -1,4 +1,8 @@
 import { combineReducers } from "redux";
-import newReleases from "./new-releases";
+import newReleases, { NewReleasesState } from "./new-releases";
 
-export default combineReducers(newReleases);
+export interface State {
+  newReleases: NewReleasesState;
+}
+
+export default combineReducers({ newReleases });

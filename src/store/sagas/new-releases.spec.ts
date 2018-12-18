@@ -17,7 +17,7 @@ describe("New Releases Sagas", () => {
     expect(generator.next().value).toEqual(call(api.fetchNewReleases, 1, 20));
 
     expect(generator.next({ data }).value).toEqual(
-      put(newReleases.success({ page: 1, limit: 20, response: data }))
+      put(newReleases.success({ page: 1, limit: 20, releases: data }))
     );
 
     expect(generator.next().done).toBeTruthy();
