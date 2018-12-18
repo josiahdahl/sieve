@@ -3,6 +3,7 @@ export const theme = {
   secondary: "#674956",
   accent: "#cd624e",
   text: "#0c1f2e",
+  gray: "#8fa3b3",
   light: "#e7dda0",
   headerFont: "'Montserrat Alternates', sans-serif;",
   bodyFont: "'Maven Pro', sans-serif;"
