@@ -8,6 +8,7 @@ export const Button = styled.button`
   color: ${props => props.theme.text};
   border: 1px solid transparent;
   font-weight: bolder;
+  border-radius: ${props => props.theme.radiusBase};
 `;
 
 export const ButtonPrimary = styled(Button)`
@@ -35,5 +36,5 @@ export const ButtonLight = styled(Button)`
 `;
 
 export const ButtonLink = styled(Button)`
-  color: ${props => props.theme.primary};
+  color: ${props => props.theme.link};
 `;
