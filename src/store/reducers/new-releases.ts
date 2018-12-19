@@ -4,6 +4,7 @@ import {
   REQUEST,
   SUCCESS
 } from "../actions/new-releases";
+import { createSelector, selectFeature, State } from './index';
 
 export interface NewReleasesState {
   releases: any[];
@@ -51,4 +52,15 @@ function reducer(state = initialState, action: Action): NewReleasesState {
   }
 }
 
-export default reducer;
+export const selectNewReleases = selectFeature<State>("newReleases");
+
+
+export const selectReleasesForPage = createSelector(
+  selectNewReleases,
+  (state: NewReleasesState) => {
+    const { currentPage, limit, releases } = state;
+    return releases.slice((currentPage - 1) * limit, limit);
+  }
+);
+
+export const newReleases = reducer;
