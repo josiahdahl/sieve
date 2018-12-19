@@ -2,19 +2,21 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
-import { Normalize } from "styled-normalize";
 import store from "./store";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { theme } from "./styles/theme";
+import { GlobalStyles } from "./styles/global-styles";
 
 ReactDOM.render(
   <React.Fragment>
-    <Normalize />
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <App />
+        <React.Fragment>
+          <GlobalStyles />
+          <App />
+        </React.Fragment>
       </ThemeProvider>
     </Provider>
   </React.Fragment>,
