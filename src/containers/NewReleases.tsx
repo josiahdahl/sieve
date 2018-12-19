@@ -1,30 +1,36 @@
-import React from 'react';
-import { newReleases } from '../store/actions/new-releases';
-import { connect } from 'react-redux';
-import { ReleaseList } from '../components/ReleaseList';
-import { State } from '../store/reducers';
-import { Dispatch } from 'redux';
+import React from "react";
+import { connect } from "react-redux";
+import { ReleaseList } from "../components/ReleaseList";
+import { State } from "../store/reducers";
+import { selectReleasesForPage } from "../store/reducers/new-releases";
+import { newReleases } from "../store/actions/new-releases";
 
-function paginateReleases(releases, currentPage, limit) {
-  return releases.slice((currentPage - 1) * limit, currentPage * limit);
+interface Props {
+  releases: any[];
+  fetchReleases: Function;
 }
 
-const mapStateToProps = (state: State) => {
-  const { newReleases } = state;
-  const { currentPage, limit, releases } = newReleases;
-  return {
-    currentPage,
-    limit,
-    releases: paginateReleases(releases, currentPage, limit)
-  };
-};
+class Component extends React.Component<Props, {}> {
+  componentWillMount(): void {
+    this.props.fetchReleases({});
+  }
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchReleases: ({ page, limit }) =>
-    dispatch(newReleases.request({ page, limit }))
+  render(): React.ReactNode {
+    const { props } = this;
+    const { releases } = props;
+    return <ReleaseList releases={releases} />;
+  }
+}
+
+const mapStateToProps = (state: State) => ({
+  releases: selectReleasesForPage(state)
 });
 
+const mapDispatchToProps = dispatch => ({
+  fetchReleases: ({ page, limit } = { page: 1, limit: null }) =>
+    dispatch(newReleases.request({ page, limit }))
+});
 export const NewReleases = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ReleaseList);
+)(Component);
