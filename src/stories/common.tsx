@@ -5,10 +5,14 @@ const Padding = styled.div`
   padding: 1rem;
 `;
 
-export const Grid = styled.div`
+interface GridProps {
+  maxWidth?: string;
+}
+
+export const Grid = styled.div<GridProps>`
   display: flex;
   flex-direction: row;
-  max-width: ${props => props.maxWidth};
+  max-width: ${props => props.maxWidth || '100%'};
   flex-wrap: wrap;
 `;
 
