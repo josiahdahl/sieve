@@ -1,4 +1,6 @@
-export default [
+import { SpotifyAlbum } from '../types/Spotify';
+
+const mockAlbums: SpotifyAlbum[] = [
   {
     album_type: 'album',
     artists: [{
@@ -1517,3 +1519,5 @@ export default [
     uri: 'spotify:album:4PR087VYQEyewLU8taaSn6'
   }
 ];
+
+export default mockAlbums;

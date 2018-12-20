@@ -1,22 +1,21 @@
-import React from "react";
+import React from 'react';
+import { SpotifyAlbum } from '../types/Spotify';
+import { Grid, GridCol } from './Grid';
+import { ReleaseCard } from '../styles/ReleaseCard';
 
-interface ReleaseListProps {
-  releases: any[];
+interface Props {
+  releases: SpotifyAlbum[];
 }
 
-export const ReleaseList = (props: ReleaseListProps) => {
+export const ReleaseList = (props: Props) => {
   const { releases } = props;
   return (
-    <div>
-      <ul>
-        {releases.map(item => (
-          <li key={item.id}>
-            <b>{item.name}</b>
-            <br />
-            {item.album_type}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Grid>
+      {releases.map(release => (
+        <GridCol key={release.id}>
+          <ReleaseCard release={release} />
+        </GridCol>
+      ))}
+    </Grid>
   );
 };

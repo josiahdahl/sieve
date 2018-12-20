@@ -24,16 +24,24 @@ export const CardMedia = styled.img`
 
 export const CardBody = styled.div`
   padding: 0.8rem;
+    
+  * + & {
+    padding-bottom: 0; 
+  }
 `;
 
 export const CardTitle = styled.div`
   font-family: ${props => props.theme.headerFont};
   font-weight: bold;
   text-transform: lowercase;
-  margin-bottom: 0.5rem;
+  
+  & + * {
+    margin-top: 0.5rem;
+  }
 `;
 export const CardContent = styled.p`
   margin: 0;
+
 `;
 
 export const CardActions = styled.div`
