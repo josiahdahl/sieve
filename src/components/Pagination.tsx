@@ -3,18 +3,25 @@ import styled from "styled-components";
 import { Button } from "./Button";
 
 type Props = {
-  itemCount: number;
-  page: number;
-  limit: number;
-  goToPage: (page: number) => void;
+  pageCount: number;
+  currentPage: number;
+  handleNavigate: (page: number) => void;
 };
 
 type State = {
-  page: number;
+  currentPage: number;
+};
+
+type ChildProps = {
+  prevPage: number;
+  nextPage: number;
+  currentPage: number;
+  pageCount: number;
+  handleNavigate: (page: number) => void;
 };
 
 export type PaginationProps = Props & {
-  children: (props: Props) => ReactNode;
+  children: (props: ChildProps) => ReactNode;
 };
 
 export class PaginationRenderProps extends React.Component<
@@ -23,26 +30,31 @@ export class PaginationRenderProps extends React.Component<
 > {
   constructor(props) {
     super(props);
-    const { page } = this.props;
+    const { currentPage } = this.props;
     this.state = {
-      page
+      currentPage
     };
-    this.goToPage.bind(this);
+    this.handleNavigate.bind(this);
   }
 
-  private goToPage(page: number) {
-    this.setState({ page });
+  private handleNavigate(page: number) {
+    this.setState({ currentPage: page });
+    this.props.handleNavigate(page);
   }
 
   render() {
-    const { itemCount, limit } = this.props;
-    const { page } = this.state;
+    const { pageCount } = this.props;
+    const { currentPage } = this.state;
+    const prevPage = currentPage - 1 || 1;
+    const nextPage =
+      currentPage + 1 > pageCount ? currentPage : currentPage + 1;
     const renderedChildren = this.props.children({
-      itemCount,
-      page,
-      limit,
-      goToPage: p => {
-        this.goToPage(p);
+      prevPage,
+      nextPage,
+      currentPage,
+      pageCount,
+      handleNavigate: pageNum => {
+        this.handleNavigate(pageNum);
       }
     });
     return renderedChildren && React.Children.only(renderedChildren);
@@ -57,9 +69,7 @@ export const PaginationContainer = styled.div`
   justify-content: space-between;
 `;
 
-type BaseButtonProps = {
-  handleGoToPage: (page: number) => void;
-} & React.HTMLProps<HTMLButtonElement>;
+type BaseButtonProps = React.HTMLProps<HTMLButtonElement>;
 
 type ButtonProps = BaseButtonProps & {
   pageNumber: number;
@@ -75,32 +85,24 @@ const PaginationButton = styled(Button)`
   border-radius: 0;
 `;
 
-export const PaginationPrev: FunctionComponent<BaseButtonProps> = ({
-  handleGoToPage,
-  ...rest
-}) => (
-  <PaginationButton aria-label="Previous" onClick={handleGoToPage} {...rest}>
+export const PaginationPrev: FunctionComponent<BaseButtonProps> = (props) => (
+  <PaginationButton aria-label="Previous" {...props}>
     &lt;
   </PaginationButton>
 );
 
-export const PaginationNext: FunctionComponent<BaseButtonProps> = ({
-  handleGoToPage,
-  ...rest
-}) => (
-  <PaginationButton aria-label="Next" onClick={handleGoToPage} {...rest}>
+export const PaginationNext: FunctionComponent<BaseButtonProps> = (props) => (
+  <PaginationButton aria-label="Next" {...props}>
     &gt;
   </PaginationButton>
 );
 
 export const PaginationItem: FunctionComponent<ButtonProps> = ({
   pageNumber,
-  handleGoToPage,
   isActive = false,
   ...rest
 }) => (
   <PaginationButton
-    onClick={handleGoToPage}
     aria-label={`Go to page ${pageNumber}`}
     isActive={isActive}
     {...rest}

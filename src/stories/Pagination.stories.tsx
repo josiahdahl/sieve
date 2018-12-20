@@ -36,45 +36,35 @@ storiesOf("Pagination", module)
   ))
   .add("With Render Props", () => {
     let state = {
-      itemCount: 10,
-      page: 1,
-      limit: 2
-    };
-
-    const handleGoToPage = page => {
-      state = {
-        ...state,
-        page
-      };
+      pageCount: 5,
+      currentPage: 1,
     };
 
     const props = {
       ...state,
-      goToPage: handleGoToPage
+      handleNavigate: (_) => {/* do nothing */}
     };
     return (
       <PaginationRenderProps {...props}>
-        {({ itemCount, page, limit, goToPage }) => {
-          const totalPages = Math.ceil(itemCount / limit);
-          const prevPage = page - 1 || 1;
-          const nextPage = page + 1 > totalPages ? page : page + 1;
+        {({ prevPage, nextPage, currentPage, pageCount, handleNavigate }) => {
+
           return (
             <PaginationContainer>
               <PaginationPrev
-                handleGoToPage={() => goToPage(prevPage)}
-                disabled={page - 1 === 0}
+                onClick={() => handleNavigate(prevPage)}
+                disabled={currentPage - 1 === 0}
               />
-              {Array.from(Array(totalPages)).map((_, i) => (
+              {Array.from(Array(pageCount)).map((_, i) => (
                 <PaginationItem
                   key={i}
-                  isActive={i + 1 === page}
+                  isActive={i + 1 === currentPage}
                   pageNumber={i + 1}
-                  handleGoToPage={() => goToPage(i + 1)}
+                  onClick={() => handleNavigate(i + 1)}
                 />
               ))}
               <PaginationNext
-                handleGoToPage={() => goToPage(nextPage)}
-                disabled={nextPage === page}
+                onClick={() => handleNavigate(nextPage)}
+                disabled={nextPage === currentPage}
               />
             </PaginationContainer>
           );
