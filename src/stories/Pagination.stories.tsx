@@ -6,10 +6,9 @@ import {
   PaginationItem,
   PaginationNext,
   PaginationPrev,
-  PaginationRenderProps
 } from '../components/Pagination';
 
-storiesOf("Pagination", module)
+/*storiesOf("Pagination", module)
   .addDecorator(PaddingDecorator)
   .add("Standard", () => (
     <PaginationContainer>
@@ -33,8 +32,8 @@ storiesOf("Pagination", module)
         }}
       />
     </PaginationContainer>
-  ))
-  .add("With Render Props", () => {
+  ))*/
+  /*.add("With Render Props", () => {
     let state = {
       pageCount: 5,
       currentPage: 1,
@@ -42,10 +41,10 @@ storiesOf("Pagination", module)
 
     const props = {
       ...state,
-      handleNavigate: (_) => {/* do nothing */}
+      handleNavigate: (_) => {/!* do nothing *!/}
     };
     return (
-      <PaginationRenderProps {...props}>
+      <PaginationProvider {...props}>
         {({ prevPage, nextPage, currentPage, pageCount, handleNavigate }) => {
 
           return (
@@ -69,6 +68,6 @@ storiesOf("Pagination", module)
             </PaginationContainer>
           );
         }}
-      </PaginationRenderProps>
+      </PaginationProvider>
     );
-  });
+  });*/

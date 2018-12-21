@@ -10,13 +10,15 @@ export interface NewReleasesState {
   releases: any[];
   currentPage: number;
   limit: number;
+  releasesCount: number;
   isFetching: boolean;
 }
 
 const initialState: NewReleasesState = {
   releases: [],
   currentPage: 1,
-  limit: 20,
+  limit: 10,
+  releasesCount: 40,
   isFetching: false
 };
 
@@ -29,7 +31,7 @@ function reducer(state = initialState, action: Action): NewReleasesState {
       };
     }
     case NEW_RELEASES[SUCCESS]: {
-      const { page, limit, releases } = action.payload;
+      const { page = state.currentPage, limit = state.limit, releases } = action.payload;
 
       if (releases.length === 0 || page < 1) {
         return state;
@@ -37,9 +39,9 @@ function reducer(state = initialState, action: Action): NewReleasesState {
 
       return {
         ...state,
+        limit,
         isFetching: false,
         currentPage: page,
-        limit: limit,
         releases: [
           ...state.releases.slice(0, limit * (page - 1)),
           ...releases,
@@ -59,7 +61,7 @@ export const selectReleasesForPage = createSelector(
   selectNewReleases,
   (state: NewReleasesState) => {
     const { currentPage, limit, releases } = state;
-    return releases.slice((currentPage - 1) * limit, limit);
+    return releases.slice((currentPage - 1) * limit, currentPage * limit);
   }
 );
 

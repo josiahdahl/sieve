@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from 'react';
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -14,8 +14,9 @@ const Logo = styled.div`
   padding: 0.2rem 0.5rem;
 `;
 
-export const Header = () => (
+export const Header: FunctionComponent<{}> = (props) => (
   <Container>
     <Logo>sieve</Logo>
+    {props.children}
   </Container>
 );

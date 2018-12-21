@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export const Button = styled.button`
+export const Button = styled('button')`
   background-color: transparent;
   font-family: ${props => props.theme.bodyFont};
   padding: 0.6rem 0.8rem;
