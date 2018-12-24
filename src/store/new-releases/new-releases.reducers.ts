@@ -56,12 +56,12 @@ function reducer(state = initialState, action: Actions): NewReleasesState {
     case NEW_RELEASES_FILTER_ALBUMS:
       return {
         ...state,
-        filter: NEW_RELEASES_FILTER_ALBUMS
+        filter: "album"
       };
     case NEW_RELEASES_FILTER_SINGLES:
       return {
         ...state,
-        filter: NEW_RELEASES_FILTER_SINGLES
+        filter: "single"
       };
     case NEW_RELEASES_FILTER_NONE:
       return {

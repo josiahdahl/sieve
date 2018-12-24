@@ -54,7 +54,7 @@ describe("New Releases Reducer", () => {
       limit: 10,
       releasesCount: 40,
       isFetching: false,
-      filter: NEW_RELEASES_FILTER_ALBUMS
+      filter: "album"
     });
   });
 
@@ -69,7 +69,7 @@ describe("New Releases Reducer", () => {
       limit: 10,
       releasesCount: 40,
       isFetching: false,
-      filter: NEW_RELEASES_FILTER_SINGLES
+      filter: "single"
     });
   });
 
