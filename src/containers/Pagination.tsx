@@ -10,9 +10,9 @@ import {
   PaginationPrev
 } from "../components/Pagination";
 import { connect } from "react-redux";
-import { State as RootState } from "../store/reducers";
+import { RootState as RootState } from "../store/reducers";
 import { Action, Dispatch } from 'redux';
-import { newReleases } from '../store/actions/new-releases';
+import { NewReleasesRequest } from '../store/actions/new-releases';
 
 type State = {
   currentPage: number;
@@ -99,7 +99,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): DispatchProps => ({
   handleNavigate: page => {
-      dispatch(newReleases.request({ page }))
+      dispatch(new NewReleasesRequest(page))
   }
 });
 

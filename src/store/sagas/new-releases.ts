@@ -1,24 +1,29 @@
-import * as actions from '../actions/new-releases';
-import { FetchNewReleases, NEW_RELEASES, REQUEST } from '../actions/new-releases';
-import * as api from '../../services/api';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import {
+  NEW_RELEASES_REQUEST,
+  NewReleasesRequest,
+  NewReleasesSuccess
+} from "../actions/new-releases";
+import * as api from "../../services/api";
+import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { selectNewReleases } from '../reducers/new-releases';
 
-const { newReleases } = actions;
+export function* fetchNewReleasesSaga(action: NewReleasesRequest) {
+  const { page } = action.payload;
+  const state = yield select();
+  const { limit } = selectNewReleases(state);
 
-export function* fetchNewReleasesSaga(action: FetchNewReleases) {
-  const { page, limit } = action.payload;
   const { data } = yield call<number, number>(
     api.fetchNewReleases,
     page,
     limit
   );
 
-  yield put(newReleases.success({ page, limit, releases: data }));
+  yield put(new NewReleasesSuccess(data, page));
 }
 
 export function* watchNewReleases() {
-  yield takeLatest<FetchNewReleases>(
-    NEW_RELEASES[REQUEST],
+  yield takeLatest<NewReleasesRequest>(
+    NEW_RELEASES_REQUEST,
     fetchNewReleasesSaga
   );
 }

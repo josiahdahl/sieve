@@ -1,10 +1,9 @@
 import {
-  Action,
-  NEW_RELEASES,
-  REQUEST,
-  SUCCESS
+  Actions,
+  NEW_RELEASES_REQUEST,
+  NEW_RELEASES_SUCCESS
 } from "../actions/new-releases";
-import { createSelector, selectFeature, State } from './index';
+import { createSelector, RootState, selectFeature } from "./index";
 
 export interface NewReleasesState {
   releases: any[];
@@ -14,7 +13,7 @@ export interface NewReleasesState {
   isFetching: boolean;
 }
 
-const initialState: NewReleasesState = {
+export const initialState: NewReleasesState = {
   releases: [],
   currentPage: 1,
   limit: 10,
@@ -22,16 +21,18 @@ const initialState: NewReleasesState = {
   isFetching: false
 };
 
-function reducer(state = initialState, action: Action): NewReleasesState {
+function reducer(state = initialState, action: Actions): NewReleasesState {
   switch (action.type) {
-    case NEW_RELEASES[REQUEST]: {
+    case NEW_RELEASES_REQUEST: {
       return {
         ...state,
         isFetching: true
       };
     }
-    case NEW_RELEASES[SUCCESS]: {
-      const { page = state.currentPage, limit = state.limit, releases } = action.payload;
+    case NEW_RELEASES_SUCCESS: {
+      const { page = state.currentPage, releases } = action.payload;
+
+      const { limit } = state;
 
       if (releases.length === 0 || page < 1) {
         return state;
@@ -39,7 +40,6 @@ function reducer(state = initialState, action: Action): NewReleasesState {
 
       return {
         ...state,
-        limit,
         isFetching: false,
         currentPage: page,
         releases: [
@@ -54,8 +54,7 @@ function reducer(state = initialState, action: Action): NewReleasesState {
   }
 }
 
-export const selectNewReleases = selectFeature<State>("newReleases");
-
+export const selectNewReleases = selectFeature<RootState>("newReleases");
 
 export const selectReleasesForPage = createSelector(
   selectNewReleases,

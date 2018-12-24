@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { ReleaseList } from "../components/ReleaseList";
-import { State } from "../store/reducers";
+import { RootState } from "../store/reducers";
 import { selectReleasesForPage } from "../store/reducers/new-releases";
-import { newReleases } from "../store/actions/new-releases";
+import { NewReleasesRequest } from '../store/actions/new-releases';
 
 interface Props {
   releases: any[];
@@ -22,13 +22,13 @@ class Component extends React.Component<Props, {}> {
   }
 }
 
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state: RootState) => ({
   releases: selectReleasesForPage(state)
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchReleases: ({ page, limit } = { page: 1, limit: null }) =>
-    dispatch(newReleases.request({ page, limit }))
+  fetchReleases: ({ page } = { page: 1 }) =>
+    dispatch(new NewReleasesRequest(page))
 });
 export const NewReleases = connect(
   mapStateToProps,

@@ -1,23 +1,25 @@
 import { fetchNewReleasesSaga, watchNewReleases } from "./new-releases";
 import * as api from "../../services/api";
+import mockReleases from "../../mocks/new-releases";
 import {
-  FetchNewReleases,
-  NEW_RELEASES,
-  newReleases,
-  REQUEST
+  NEW_RELEASES_REQUEST,
+  NewReleasesRequest,
+  NewReleasesSuccess
 } from "../actions/new-releases";
 import { call, put, takeLatest } from "redux-saga/effects";
 
 describe("New Releases Sagas", () => {
   it("fetches new releases", () => {
-    const data = ["some", "data"];
+    const data = mockReleases.slice(0, 2);
 
-    const generator = fetchNewReleasesSaga(new FetchNewReleases());
+    const generator = fetchNewReleasesSaga(new NewReleasesRequest(1));
 
-    expect(generator.next().value).toEqual(call(api.fetchNewReleases, 1, 20));
+    generator.next();
+
+    expect(generator.next({newReleases: {limit: 20}}).value).toEqual(call(api.fetchNewReleases, 1, 20));
 
     expect(generator.next({ data }).value).toEqual(
-      put(newReleases.success({ page: 1, limit: 20, releases: data }))
+      put(new NewReleasesSuccess(data, 1))
     );
 
     expect(generator.next().done).toBeTruthy();
@@ -27,7 +29,7 @@ describe("New Releases Sagas", () => {
     const generator = watchNewReleases();
 
     expect(generator.next().value).toEqual(
-      takeLatest(NEW_RELEASES[REQUEST], fetchNewReleasesSaga)
+      takeLatest(NEW_RELEASES_REQUEST, fetchNewReleasesSaga)
     );
   });
 });
