@@ -10,6 +10,8 @@ import {
   ButtonSecondary
 } from "../components/Button";
 import { Grid, GridItem, PaddingDecorator } from "./common";
+import { GridRow } from '../components/Grid';
+import { ButtonGroup } from '../styles/ButtonGroup';
 
 const buttonTypes = [
   { component: Button, title: "Button" },
@@ -26,9 +28,20 @@ storiesOf("Buttons", module)
   .add("Solid Buttons", () => (
     <Grid>
       {buttonTypes.map(({ component: Component, title }) => (
-        <GridItem>
+        <GridItem key={title}>
           <Component>{title}</Component>
         </GridItem>
       ))}
+    </Grid>
+  ))
+  .add('Button Groups', () => (
+    <Grid>
+      <GridRow>
+        <ButtonGroup>
+          <ButtonPrimary>First in Group</ButtonPrimary>
+          <ButtonPrimary>Some Middle Stuff</ButtonPrimary>
+          <ButtonPrimary>Last in Group</ButtonPrimary>
+        </ButtonGroup>
+      </GridRow>
     </Grid>
   ));
