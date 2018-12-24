@@ -1,9 +1,11 @@
 import {
   Actions,
+  NEW_RELEASES_FILTER_ALBUMS,
+  NEW_RELEASES_FILTER_NONE,
+  NEW_RELEASES_FILTER_SINGLES,
   NEW_RELEASES_REQUEST,
   NEW_RELEASES_SUCCESS
-} from "../actions/new-releases";
-import { createSelector, RootState, selectFeature } from "./index";
+} from "./new-releases.actions";
 
 export interface NewReleasesState {
   releases: any[];
@@ -11,6 +13,7 @@ export interface NewReleasesState {
   limit: number;
   releasesCount: number;
   isFetching: boolean;
+  filter: string | undefined;
 }
 
 export const initialState: NewReleasesState = {
@@ -18,7 +21,8 @@ export const initialState: NewReleasesState = {
   currentPage: 1,
   limit: 10,
   releasesCount: 40,
-  isFetching: false
+  isFetching: false,
+  filter: undefined
 };
 
 function reducer(state = initialState, action: Actions): NewReleasesState {
@@ -49,19 +53,24 @@ function reducer(state = initialState, action: Actions): NewReleasesState {
         ]
       };
     }
+    case NEW_RELEASES_FILTER_ALBUMS:
+      return {
+        ...state,
+        filter: NEW_RELEASES_FILTER_ALBUMS
+      };
+    case NEW_RELEASES_FILTER_SINGLES:
+      return {
+        ...state,
+        filter: NEW_RELEASES_FILTER_SINGLES
+      };
+    case NEW_RELEASES_FILTER_NONE:
+      return {
+        ...state,
+        filter: undefined
+      };
     default:
       return state;
   }
 }
 
-export const selectNewReleases = selectFeature<RootState>("newReleases");
-
-export const selectReleasesForPage = createSelector(
-  selectNewReleases,
-  (state: NewReleasesState) => {
-    const { currentPage, limit, releases } = state;
-    return releases.slice((currentPage - 1) * limit, currentPage * limit);
-  }
-);
-
-export const newReleases = reducer;
+export const newReleasesReducers = reducer;

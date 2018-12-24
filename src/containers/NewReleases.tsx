@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { ReleaseList } from "../components/ReleaseList";
 import { RootState } from "../store/reducers";
-import { selectReleasesForPage } from "../store/reducers/new-releases";
-import { NewReleasesRequest } from "../store/actions/new-releases";
+import { selectReleasesForPage } from "../store/new-releases/new-releases.selectors";
+import { NewReleasesRequest } from "../store/new-releases/new-releases.actions";
 
 interface Props {
   releases: any[];

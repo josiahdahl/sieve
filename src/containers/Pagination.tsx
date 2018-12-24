@@ -1,8 +1,6 @@
 import React from "react";
-import {
-  NewReleasesState,
-  selectNewReleases
-} from "../store/reducers/new-releases";
+import { NewReleasesState } from "../store/new-releases/new-releases.reducers";
+import { selectNewReleases } from "../store/new-releases/new-releases.selectors";
 import {
   PaginationContainer,
   PaginationItem,
@@ -10,9 +8,9 @@ import {
   PaginationPrev
 } from "../components/Pagination";
 import { connect } from "react-redux";
-import { RootState as RootState } from "../store/reducers";
-import { Action, Dispatch } from 'redux';
-import { NewReleasesRequest } from '../store/actions/new-releases';
+import { RootState } from "../store/reducers";
+import { Action, Dispatch } from "redux";
+import { NewReleasesRequest } from "../store/new-releases/new-releases.actions";
 
 type State = {
   currentPage: number;
@@ -97,9 +95,11 @@ const mapStateToProps = (state: RootState): StateProps => {
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): DispatchProps => ({
+const mapDispatchToProps = (
+  dispatch: Dispatch<Action<any>>
+): DispatchProps => ({
   handleNavigate: page => {
-      dispatch(new NewReleasesRequest({ page }));
+    dispatch(new NewReleasesRequest({ page }));
   }
 });
 

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { newReleases, NewReleasesState } from './new-releases';
+import { newReleasesReducers, NewReleasesState } from './new-releases/new-releases.reducers';
 
 export interface RootState {
   newReleases: NewReleasesState;
@@ -24,4 +24,4 @@ export function createSelector(...args: Function[]) {
   };
 }
 
-export default combineReducers({ newReleases });
+export default combineReducers({ newReleases: newReleasesReducers });

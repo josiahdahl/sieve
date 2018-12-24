@@ -2,10 +2,10 @@ import {
   NEW_RELEASES_REQUEST,
   NewReleasesRequest,
   NewReleasesSuccess
-} from "../actions/new-releases";
+} from "./new-releases.actions";
 import * as api from "../../services/api";
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { selectNewReleases } from "../reducers/new-releases";
+import { selectNewReleases } from "./new-releases.selectors";
 
 export function* fetchNewReleasesSaga(action: NewReleasesRequest) {
   const { page } = action.payload;

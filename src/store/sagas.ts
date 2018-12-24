@@ -1,4 +1,4 @@
-import { watchNewReleases } from "./new-releases";
+import { watchNewReleases } from "./new-releases/new-releases.sagas";
 import { all } from "redux-saga/effects";
 
 export default function* rootSaga() {

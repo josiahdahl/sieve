@@ -1,11 +1,11 @@
-import { fetchNewReleasesSaga, watchNewReleases } from "./new-releases";
+import { fetchNewReleasesSaga, watchNewReleases } from "./new-releases.sagas";
 import * as api from "../../services/api";
 import mockReleases from "../../mocks/new-releases";
 import {
   NEW_RELEASES_REQUEST,
   NewReleasesRequest,
   NewReleasesSuccess
-} from "../actions/new-releases";
+} from "./new-releases.actions";
 import { call, put, takeLatest } from "redux-saga/effects";
 
 describe("New Releases Sagas", () => {

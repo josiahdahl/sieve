@@ -1,4 +1,4 @@
-import { createSelector, selectFeature } from "./index";
+import { createSelector, selectFeature } from "./reducers";
 
 describe("Selectors", () => {
   describe("createSelector", () => {
