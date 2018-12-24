@@ -12,14 +12,16 @@ describe("New Releases Sagas", () => {
   it("fetches new releases", () => {
     const data = mockReleases.slice(0, 2);
 
-    const generator = fetchNewReleasesSaga(new NewReleasesRequest(1));
+    const generator = fetchNewReleasesSaga(new NewReleasesRequest({ page: 1 }));
 
     generator.next();
 
-    expect(generator.next({newReleases: {limit: 20}}).value).toEqual(call(api.fetchNewReleases, 1, 20));
+    expect(generator.next({ newReleases: { limit: 20 } }).value).toEqual(
+      call(api.fetchNewReleases, 1, 20)
+    );
 
     expect(generator.next({ data }).value).toEqual(
-      put(new NewReleasesSuccess(data, 1))
+      put(new NewReleasesSuccess({ releases: data, page: 1 }))
     );
 
     expect(generator.next().done).toBeTruthy();

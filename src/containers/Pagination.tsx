@@ -99,7 +99,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 
 const mapDispatchToProps = (dispatch: Dispatch<Action<any>>): DispatchProps => ({
   handleNavigate: page => {
-      dispatch(new NewReleasesRequest(page))
+      dispatch(new NewReleasesRequest({ page }));
   }
 });
 

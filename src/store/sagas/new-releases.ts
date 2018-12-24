@@ -4,8 +4,8 @@ import {
   NewReleasesSuccess
 } from "../actions/new-releases";
 import * as api from "../../services/api";
-import { call, put, select, takeLatest } from 'redux-saga/effects';
-import { selectNewReleases } from '../reducers/new-releases';
+import { call, put, select, takeLatest } from "redux-saga/effects";
+import { selectNewReleases } from "../reducers/new-releases";
 
 export function* fetchNewReleasesSaga(action: NewReleasesRequest) {
   const { page } = action.payload;
@@ -18,7 +18,7 @@ export function* fetchNewReleasesSaga(action: NewReleasesRequest) {
     limit
   );
 
-  yield put(new NewReleasesSuccess(data, page));
+  yield put(new NewReleasesSuccess({ releases: data, page }));
 }
 
 export function* watchNewReleases() {

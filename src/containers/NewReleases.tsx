@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { ReleaseList } from "../components/ReleaseList";
 import { RootState } from "../store/reducers";
 import { selectReleasesForPage } from "../store/reducers/new-releases";
-import { NewReleasesRequest } from '../store/actions/new-releases';
+import { NewReleasesRequest } from "../store/actions/new-releases";
 
 interface Props {
   releases: any[];
@@ -28,7 +28,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchReleases: ({ page } = { page: 1 }) =>
-    dispatch(new NewReleasesRequest(page))
+    dispatch(new NewReleasesRequest({ page }))
 });
 export const NewReleases = connect(
   mapStateToProps,
