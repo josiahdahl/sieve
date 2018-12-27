@@ -36,7 +36,7 @@ import {
   /*.add("With Render Props", () => {
     let state = {
       pageCount: 5,
-      currentPage: 1,
+      offset: 1,
     };
 
     const props = {

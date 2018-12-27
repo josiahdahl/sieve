@@ -6,22 +6,22 @@ import {
   NewReleasesRequest,
   NewReleasesSuccess
 } from "./new-releases.actions";
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 
 describe("New Releases Sagas", () => {
   it("fetches new releases", () => {
-    const data = mockReleases.slice(0, 2);
+    const data = mockReleases.slice(0, 20);
 
-    const generator = fetchNewReleasesSaga(new NewReleasesRequest({ page: 1 }));
+    const generator = fetchNewReleasesSaga(new NewReleasesRequest());
 
     generator.next();
 
-    expect(generator.next({ newReleases: { limit: 20 } }).value).toEqual(
-      call(api.fetchNewReleases, 1, 20)
-    );
+    expect(
+      generator.next({ newReleases: { limit: 20, offset: 0 } }).value
+    ).toEqual(call(api.fetchNewReleases, 0, 20));
 
     expect(generator.next({ data }).value).toEqual(
-      put(new NewReleasesSuccess({ releases: data, page: 1 }))
+      put(new NewReleasesSuccess({ releases: data, limit: 20, offset: 0 }))
     );
 
     expect(generator.next().done).toBeTruthy();
@@ -31,7 +31,7 @@ describe("New Releases Sagas", () => {
     const generator = watchNewReleases();
 
     expect(generator.next().value).toEqual(
-      takeLatest(NEW_RELEASES_REQUEST, fetchNewReleasesSaga)
+      takeEvery(NEW_RELEASES_REQUEST, fetchNewReleasesSaga)
     );
   });
 });

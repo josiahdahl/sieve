@@ -7,7 +7,7 @@ export const selectNewReleases = selectFeature<RootState>("newReleases");
 export const selectReleasesForPage = createSelector(
   selectNewReleases,
   (state: NewReleasesState) => {
-    const { currentPage, limit, releases, filter } = state;
+    const { offset, limit, releases, filter } = state;
     return releases
       .filter((release: SpotifyAlbum) => {
         if (typeof filter === "undefined") {
@@ -15,6 +15,6 @@ export const selectReleasesForPage = createSelector(
         }
         return filter === release.album_type;
       })
-      .slice((currentPage - 1) * limit, currentPage * limit);
+      .slice(offset, offset + limit);
   }
 );

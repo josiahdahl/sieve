@@ -11,8 +11,8 @@ interface Props {
 }
 
 class Component extends React.Component<Props, {}> {
-  componentWillMount(): void {
-    this.props.fetchReleases({});
+  componentDidMount(): void {
+    this.props.fetchReleases();
   }
 
   render(): React.ReactNode {
@@ -27,8 +27,9 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchReleases: ({ page } = { page: 1 }) =>
-    dispatch(new NewReleasesRequest({ page }))
+  fetchReleases: () => {
+    dispatch(new NewReleasesRequest());
+  }
 });
 export const NewReleases = connect(
   mapStateToProps,

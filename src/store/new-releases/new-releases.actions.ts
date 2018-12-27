@@ -5,7 +5,7 @@ export const NEW_RELEASES_REQUEST = "NEW_RELEASES_REQUEST";
 export class NewReleasesRequest {
   readonly type = NEW_RELEASES_REQUEST;
 
-  constructor(public readonly payload: { page: number }) {}
+  constructor() {}
 }
 
 export const NEW_RELEASES_SUCCESS = "NEW_RELEASES_SUCCESS";
@@ -14,7 +14,11 @@ export class NewReleasesSuccess {
   readonly type = NEW_RELEASES_SUCCESS;
 
   constructor(
-    public readonly payload: { releases: SpotifyAlbum[]; page: number }
+    public readonly payload: {
+      releases: SpotifyAlbum[];
+      offset: number;
+      limit: number;
+    }
   ) {}
 }
 
