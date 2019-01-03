@@ -45,25 +45,25 @@ import {
     };
     return (
       <PaginationProvider {...props}>
-        {({ prevPage, nextPage, currentPage, pageCount, handleNavigate }) => {
+        {({ prevPage, nextPage, offset, pageCount, handleNavigate }) => {
 
           return (
             <PaginationContainer>
               <PaginationPrev
                 onClick={() => handleNavigate(prevPage)}
-                disabled={currentPage - 1 === 0}
+                disabled={offset - 1 === 0}
               />
               {Array.from(Array(pageCount)).map((_, i) => (
                 <PaginationItem
                   key={i}
-                  isActive={i + 1 === currentPage}
+                  isActive={i + 1 === offset}
                   pageNumber={i + 1}
                   onClick={() => handleNavigate(i + 1)}
                 />
               ))}
               <PaginationNext
                 onClick={() => handleNavigate(nextPage)}
-                disabled={nextPage === currentPage}
+                disabled={nextPage === offset}
               />
             </PaginationContainer>
           );

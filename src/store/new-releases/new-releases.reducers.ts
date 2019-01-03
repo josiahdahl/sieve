@@ -4,7 +4,8 @@ import {
   NEW_RELEASES_FILTER_NONE,
   NEW_RELEASES_FILTER_SINGLES,
   NEW_RELEASES_REQUEST,
-  NEW_RELEASES_SUCCESS
+  NEW_RELEASES_SUCCESS,
+  NEW_RELEASES_UPDATE_OFFSET
 } from "./new-releases.actions";
 import { SpotifyAlbum } from "../../types/Spotify";
 
@@ -35,7 +36,7 @@ function reducer(state = initialState, action: Actions): NewReleasesState {
       };
     }
     case NEW_RELEASES_SUCCESS: {
-      const { offset, limit, releases } = action.payload;
+      const { offset, releases } = action.payload;
 
       if (releases.length === 0) {
         return state;
@@ -47,7 +48,7 @@ function reducer(state = initialState, action: Actions): NewReleasesState {
         releases: [
           ...state.releases.slice(0, offset),
           ...releases,
-          ...state.releases.slice(offset + limit)
+          ...state.releases.slice(offset + releases.length)
         ]
       };
     }
@@ -65,6 +66,13 @@ function reducer(state = initialState, action: Actions): NewReleasesState {
       return {
         ...state,
         filter: undefined
+      };
+
+    case NEW_RELEASES_UPDATE_OFFSET:
+      const { offset } = action.payload;
+      return {
+        ...state,
+        offset
       };
     default:
       return state;

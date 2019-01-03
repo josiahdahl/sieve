@@ -8,6 +8,7 @@ export const selectReleasesForPage = createSelector(
   selectNewReleases,
   (state: NewReleasesState) => {
     const { offset, limit, releases, filter } = state;
+    console.table({offset, limit});
     return releases
       .filter((release: SpotifyAlbum) => {
         if (typeof filter === "undefined") {
@@ -17,4 +18,9 @@ export const selectReleasesForPage = createSelector(
       })
       .slice(offset, offset + limit);
   }
+);
+
+export const selectLoadedReleaseCount = createSelector(
+  selectNewReleases,
+  (state: NewReleasesState) => state.releases.length
 );

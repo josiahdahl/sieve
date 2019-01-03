@@ -4,9 +4,10 @@ import { ReleaseList } from "../components/ReleaseList";
 import { RootState } from "../store/reducers";
 import { selectReleasesForPage } from "../store/new-releases/new-releases.selectors";
 import { NewReleasesRequest } from "../store/new-releases/new-releases.actions";
+import { SpotifyAlbum } from '../types/Spotify';
 
 interface Props {
-  releases: any[];
+  releases: SpotifyAlbum[];
   fetchReleases: Function;
 }
 

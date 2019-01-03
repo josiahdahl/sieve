@@ -10,11 +10,13 @@ import {
 import { connect } from "react-redux";
 import { RootState } from "../store/reducers";
 import { Action, Dispatch } from "redux";
-import { NewReleasesRequest } from "../store/new-releases/new-releases.actions";
+import {
+  NewReleasesChangePage,
+  NewReleasesNextPage,
+  NewReleasesPrevPage
+} from "../store/new-releases/new-releases.actions";
 
-type State = {
-  currentPage: number;
-};
+type State = {};
 
 type StateProps = {
   pageCount: number;
@@ -22,63 +24,48 @@ type StateProps = {
 };
 
 type DispatchProps = {
-  handleNavigate: (page: number) => void;
+  handleGotoPage: (page: number) => void;
 };
 
 type Props = StateProps & DispatchProps;
 
-class Component extends React.Component<Props, State> {
-  state: State;
+export class Component extends React.Component<Props, State> {
   constructor(props) {
     super(props);
-    const { currentPage } = this.props;
-    this.state = {
-      currentPage
-    };
-    this.handleNavigate.bind(this);
-  }
-
-  private handleNavigate(page: number) {
-    this.setState({ currentPage: page });
-    this.props.handleNavigate(page);
-  }
-
-  componentWillReceiveProps(nextProps: StateProps, nextContext: any): void {
-    if (nextProps.currentPage !== this.state.currentPage) {
-      this.setState(state => ({
-        ...state,
-        currentPage: nextProps.currentPage
-      }));
-    }
   }
 
   render() {
-    const { pageCount } = this.props;
-    const { currentPage } = this.state;
-    const prevPage = currentPage - 1 || 1;
-    const nextPage =
-      currentPage + 1 > pageCount ? currentPage : currentPage + 1;
+    const {
+      pageCount,
+      currentPage,
+      handleGotoPage,
+    } = this.props;
+
+    console.log(currentPage);
+
+    const prevPage = currentPage > 1 ? currentPage - 1 : 1;
+    const nextPage = currentPage < pageCount ? currentPage + 1 : currentPage;
 
     return (
       <PaginationContainer>
         <PaginationPrev
-          onClick={() => this.handleNavigate(prevPage)}
-          disabled={currentPage - 1 === 0}
+          onClick={() => handleGotoPage(prevPage)}
+          disabled={currentPage === 1}
         />
         {pageCount
           ? Array.from(Array(pageCount)).map((_, i) => (
               <PaginationItem
                 key={i}
                 isActive={i + 1 === currentPage}
-                onClick={() => this.handleNavigate(i + 1)}
+                onClick={() => handleGotoPage(i + 1)}
               >
                 {i + 1}
               </PaginationItem>
             ))
           : "No Releases"}
         <PaginationNext
-          onClick={() => this.handleNavigate(nextPage)}
-          disabled={nextPage === currentPage}
+          onClick={() => handleGotoPage(nextPage)}
+          disabled={nextPage !== currentPage}
         />
       </PaginationContainer>
     );
@@ -87,19 +74,20 @@ class Component extends React.Component<Props, State> {
 
 const mapStateToProps = (state: RootState): StateProps => {
   const newReleases: NewReleasesState = selectNewReleases(state);
-  const { releasesCount, currentPage, limit } = newReleases;
+  const { releasesCount, offset, limit } = newReleases;
   const pageCount = Math.ceil(releasesCount / limit);
+  const currentPage = Math.ceil(offset / limit) + 1;
   return {
-    currentPage,
-    pageCount
+    pageCount,
+    currentPage
   };
 };
 
 const mapDispatchToProps = (
   dispatch: Dispatch<Action<any>>
 ): DispatchProps => ({
-  handleNavigate: page => {
-    dispatch(new NewReleasesRequest({ page }));
+  handleGotoPage: page => {
+    dispatch(new NewReleasesChangePage({ page }));
   }
 });
 

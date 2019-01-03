@@ -31,9 +31,8 @@ describe("New Releases Reducer", () => {
   it(`Should handle ${NEW_RELEASES_SUCCESS}`, () => {
     const releases = mock.slice(0, 10);
     const offset = 0;
-    const limit = 10;
 
-    const action = new NewReleasesSuccess({ releases, offset, limit });
+    const action = new NewReleasesSuccess({ releases, offset });
 
     const state = newReleasesReducers(undefined, action);
 
