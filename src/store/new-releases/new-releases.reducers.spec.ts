@@ -1,5 +1,6 @@
 import {
   NEW_RELEASES_FILTER_ALBUMS,
+  NEW_RELEASES_FILTER_NONE,
   NEW_RELEASES_FILTER_SINGLES,
   NEW_RELEASES_REQUEST,
   NEW_RELEASES_SUCCESS,
@@ -14,7 +15,7 @@ import mock from "../../mocks/new-releases";
 
 describe("New Releases Reducer", () => {
   it(`Should handle ${NEW_RELEASES_REQUEST}`, () => {
-    const action = new NewReleasesRequest(1);
+    const action = new NewReleasesRequest();
 
     const state = newReleasesReducers(
       {
@@ -29,16 +30,15 @@ describe("New Releases Reducer", () => {
 
   it(`Should handle ${NEW_RELEASES_SUCCESS}`, () => {
     const releases = mock.slice(0, 10);
+    const offset = 0;
 
-    const action = new NewReleasesSuccess({ releases, page: 1 });
+    const action = new NewReleasesSuccess({ releases, offset });
 
     const state = newReleasesReducers(undefined, action);
 
     expect(state).toEqual({
+      ...state,
       releases,
-      currentPage: 1,
-      limit: 10,
-      releasesCount: 40,
       isFetching: false
     });
   });
@@ -49,11 +49,7 @@ describe("New Releases Reducer", () => {
     const state = newReleasesReducers(initialState, action);
 
     expect(state).toEqual({
-      releases: [],
-      currentPage: 1,
-      limit: 10,
-      releasesCount: 40,
-      isFetching: false,
+      ...state,
       filter: "album"
     });
   });
@@ -64,26 +60,18 @@ describe("New Releases Reducer", () => {
     const state = newReleasesReducers(initialState, action);
 
     expect(state).toEqual({
-      releases: [],
-      currentPage: 1,
-      limit: 10,
-      releasesCount: 40,
-      isFetching: false,
+      ...state,
       filter: "single"
     });
   });
 
-  it(`Should handle ${NEW_RELEASES_FILTER_ALBUMS}`, () => {
+  it(`Should handle ${NEW_RELEASES_FILTER_NONE}`, () => {
     const action = new NewReleasesFilterNone();
 
     const state = newReleasesReducers(initialState, action);
 
     expect(state).toEqual({
-      releases: [],
-      currentPage: 1,
-      limit: 10,
-      releasesCount: 40,
-      isFetching: false,
+      ...state,
       filter: undefined
     });
   });

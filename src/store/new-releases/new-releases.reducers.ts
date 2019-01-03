@@ -4,12 +4,14 @@ import {
   NEW_RELEASES_FILTER_NONE,
   NEW_RELEASES_FILTER_SINGLES,
   NEW_RELEASES_REQUEST,
-  NEW_RELEASES_SUCCESS
+  NEW_RELEASES_SUCCESS,
+  NEW_RELEASES_UPDATE_OFFSET
 } from "./new-releases.actions";
+import { SpotifyAlbum } from "../../types/Spotify";
 
 export interface NewReleasesState {
-  releases: any[];
-  currentPage: number;
+  releases: SpotifyAlbum[];
+  offset: number;
   limit: number;
   releasesCount: number;
   isFetching: boolean;
@@ -18,7 +20,7 @@ export interface NewReleasesState {
 
 export const initialState: NewReleasesState = {
   releases: [],
-  currentPage: 1,
+  offset: 0,
   limit: 10,
   releasesCount: 40,
   isFetching: false,
@@ -34,22 +36,19 @@ function reducer(state = initialState, action: Actions): NewReleasesState {
       };
     }
     case NEW_RELEASES_SUCCESS: {
-      const { page = state.currentPage, releases } = action.payload;
+      const { offset, releases } = action.payload;
 
-      const { limit } = state;
-
-      if (releases.length === 0 || page < 1) {
+      if (releases.length === 0) {
         return state;
       }
 
       return {
         ...state,
         isFetching: false,
-        currentPage: page,
         releases: [
-          ...state.releases.slice(0, limit * (page - 1)),
+          ...state.releases.slice(0, offset),
           ...releases,
-          ...state.releases.slice(limit * page)
+          ...state.releases.slice(offset + releases.length)
         ]
       };
     }
@@ -67,6 +66,13 @@ function reducer(state = initialState, action: Actions): NewReleasesState {
       return {
         ...state,
         filter: undefined
+      };
+
+    case NEW_RELEASES_UPDATE_OFFSET:
+      const { offset } = action.payload;
+      return {
+        ...state,
+        offset
       };
     default:
       return state;

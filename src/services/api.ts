@@ -1,16 +1,10 @@
-import apiMock from '../mocks/new-releases';
-import { AxiosResponse } from 'axios';
+import apiMock from "../mocks/new-releases";
+import { AxiosResponse } from "axios";
 
-export const fetchNewReleases = (
-  page: number,
-  limit: number = 10
-): Promise<AxiosResponse<any[]>> =>
-  new Promise(resolve => {
-    const startPage = page > 0 ? page : 1;
-    const start = (startPage - 1) * limit;
-    const end = startPage * limit;
+export const fetchNewReleases = (offset: number = 0, limit: number = 10) =>
+  new Promise<AxiosResponse<any[]>>(resolve => {
     resolve({
-      data: apiMock.slice(start, end),
+      data: apiMock.slice(offset, offset + limit),
       status: 200,
       statusText: "OK",
       headers: {},
